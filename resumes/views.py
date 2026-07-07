@@ -5,7 +5,13 @@ from rest_framework import status
 from .models import Resume
 from .serializers import ResumeSerializer
 from .utils import extract_text_from_pdf, extract_skills, calculate_match_score
-from django.shortcuts import render
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+
+from django.http import HttpResponse
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
 
 class ResumeUploadView(APIView):
 
@@ -15,7 +21,7 @@ class ResumeUploadView(APIView):
 
         if serializer.is_valid():
 
-            resume = serializer.save()
+            resume = serializer.save(user=request.user)
 
             extracted_text = extract_text_from_pdf(
                 resume.file.path
@@ -147,12 +153,110 @@ class ResumeUploadView(APIView):
     
 from django.shortcuts import render
 
+@login_required
 def upload_page(request):
     print("REQUEST METHOD:", request.method)
 
     if request.method == "POST":
-
         print("FORM SUBMITTED")
+
     return render(request, "upload.html")
 
+@login_required
+def my_resumes(request):
 
+    resumes = Resume.objects.filter(
+        user=request.user
+    ).order_by("-uploaded_at")
+
+    return render(
+        request,
+        "my_resumes.html",
+        {
+            "resumes": resumes
+        }
+    )
+@login_required
+def resume_detail(request, pk):
+    resume = get_object_or_404(
+        Resume,
+        pk=pk,
+        user=request.user
+    )
+
+    return render(
+        request,
+        "resume_detail.html",
+        {
+            "resume": resume
+        }
+    )
+
+@login_required
+def delete_resume(request, resume_id):
+
+    resume = get_object_or_404(
+        Resume,
+        id=resume_id,
+        user=request.user
+    )
+
+    resume.file.delete()
+
+    resume.delete()
+
+    return redirect("my-resumes")
+
+
+@login_required
+def dashboard(request):
+
+    resumes = Resume.objects.filter(user=request.user)
+
+    total = resumes.count()
+
+    if total:
+        avg_ats = round(sum(r.ats_score for r in resumes) / total)
+        highest = max(r.ats_score for r in resumes)
+    else:
+        avg_ats = 0
+        highest = 0
+
+    context = {
+        "total_resumes": total,
+        "average_ats": avg_ats,
+        "highest_ats": highest,
+        "resumes": resumes.order_by("-uploaded_at")[:5],
+    }
+
+    return render(request, "dashboard.html", context)
+
+@login_required
+def download_report(request, pk):
+
+    resume = get_object_or_404(
+        Resume,
+        pk=pk,
+        user=request.user
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="Resume_Report.pdf"'
+
+    doc = SimpleDocTemplate(response)
+    styles = getSampleStyleSheet()
+
+    story = []
+
+    story.append(Paragraph("<b>Resume Analyzer Report</b>", styles["Title"]))
+    story.append(Paragraph("<br/>", styles["Normal"]))
+
+    story.append(Paragraph(f"<b>Resume:</b> {resume.file.name}", styles["BodyText"]))
+    story.append(Paragraph(f"<b>ATS Score:</b> {resume.ats_score}%", styles["BodyText"]))
+    story.append(Paragraph(f"<b>Match Score:</b> {resume.match_score}%", styles["BodyText"]))
+    story.append(Paragraph(f"<b>Skills:</b> {resume.skills}", styles["BodyText"]))
+    story.append(Paragraph(f"<b>Uploaded:</b> {resume.uploaded_at}", styles["BodyText"]))
+
+    doc.build(story)
+
+    return response

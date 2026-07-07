@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="fw-bold mb-4">
+        📂 My Resumes
+    </h2>
+
+    {% if resumes %}
+
+        <div class="row">
+
+            {% for resume in resumes %}
+
+            <div class="col-md-6 col-lg-4 mb-4">
+
+                <div class="card shadow-lg border-0 rounded-4">
+
+                    <div class="card-body">
+
+                        <h5 class="fw-bold">
+
+                        <i class="fa-solid fa-file-pdf text-danger"></i>
+
+                        {{ resume.file.name|cut:"resumes/" }}
+
+                    </h5>
+
+                        <hr>
+
+                        <p>
+                            <strong>ATS Score:</strong>
+                                {% if resume.ats_score >= 80 %}
+                                <span class="badge bg-success">
+
+                                {% elif resume.ats_score >= 50 %}
+                                <span class="badge bg-warning text-dark">
+
+                                {% else %}
+                                <span class="badge bg-danger">
+
+                                {% endif %}
+
+                                {{ resume.ats_score }}%
+
+                                </span>
+                            
+                        </p>
+
+                        <p>
+                            <strong>Match Score:</strong>
+
+                            {% if resume.match_score >= 80 %}
+                            <span class="badge bg-success">
+
+                            {% elif resume.match_score >= 50 %}
+                            <span class="badge bg-warning text-dark">
+
+                            {% else %}
+                            <span class="badge bg-danger">
+
+                            {% endif %}
+
+                            {{ resume.match_score }}%
+
+                            </span>
+                        </p>
+
+                        <p>
+                            <strong>Uploaded:</strong><br>
+
+                            {{ resume.uploaded_at|date:"d M Y" }}
+                        </p>
+
+                        <a
+                        href="{% url 'resume-detail' resume.id %}"
+                        class="btn btn-primary">
+
+                        View Report
+
+                    </a>
+                    <a
+                    href="{% url 'delete-resume' resume.id %}"
+                    class="btn btn-danger">
+
+                    Delete
+
+                </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-info">
+
+            You haven't uploaded any resumes yet.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+{% endblock %}

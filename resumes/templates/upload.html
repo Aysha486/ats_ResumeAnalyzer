@@ -1,96 +1,307 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Analyzer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Resume Analyzer</title>
 
-    <style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        body{
-            background: linear-gradient(135deg,#667eea,#764ba2);
-            min-height:100vh;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        }
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-        .upload-card{
-            background:white;
-            padding:40px;
-            border-radius:20px;
-            width:700px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.2);
-        }
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        .title{
-            text-align:center;
-            margin-bottom:30px;
-        }
+<style>
 
-        .btn-analyze{
-            width:100%;
-            padding:12px;
-            font-size:18px;
-        }
+body{
+    background:#eef2ff;
+    font-family:'Segoe UI',sans-serif;
+}
 
-    </style>
+/* NAVBAR */
+
+.navbar{
+    background:white;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+    color:#4f46e5;
+}
+
+.logo i{
+    margin-right:8px;
+}
+
+.nav-link{
+    font-weight:500;
+    margin-right:20px;
+}
+
+.user-box{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logout-btn{
+    border-radius:25px;
+    padding:8px 20px;
+}
+
+
+/* MAIN */
+
+.main{
+    margin-top:50px;
+}
+
+/* LEFT */
+
+.left h1{
+    font-size:55px;
+    font-weight:700;
+}
+
+.left p{
+    font-size:20px;
+    color:gray;
+}
+
+.feature{
+
+    display:flex;
+    align-items:center;
+    margin-top:20px;
+    font-size:18px;
+
+}
+
+.feature i{
+
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:15px;
+    color:white;
+
+}
+
+.blue{
+    background:#4f46e5;
+}
+
+.green{
+    background:#16a34a;
+}
+
+.orange{
+    background:#f59e0b;
+}
+
+
+/* CARD */
+
+.upload-card{
+
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 20px 45px rgba(0,0,0,.12);
+
+}
+
+.upload-card h2{
+
+    font-weight:bold;
+    margin-bottom:8px;
+
+}
+
+.upload-card p{
+
+    color:gray;
+
+}
+
+.form-control{
+
+    border-radius:12px;
+    padding:12px;
+
+}
+
+textarea{
+
+    resize:none;
+
+}
+
+.btn-upload{
+
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:bold;
+
+    background:#4f46e5;
+    border:none;
+
+}
+
+.btn-upload:hover{
+
+    background:#4338ca;
+
+}
+
+</style>
+
 </head>
 <body>
 
+<!-- NAVBAR -->
+
+
+
+
+<!-- MAIN -->
+
+<div class="container main">
+
+<div class="row align-items-center">
+
+<!-- LEFT SIDE -->
+
+<div class="col-lg-6 left">
+
+<h1>
+Get Your Resume
+ATS Ready
+</h1>
+
+<p class="mt-3">
+
+Upload your resume and compare it with any job description.
+
+</p>
+
+<div class="feature">
+
+<i class="fa-solid fa-check blue"></i>
+
+ATS Score Analysis
+
+</div>
+
+<div class="feature">
+
+<i class="fa-solid fa-brain green"></i>
+
+AI Skill Detection
+
+</div>
+
+<div class="feature">
+
+<i class="fa-solid fa-chart-line orange"></i>
+
+Job Match Percentage
+
+</div>
+
+</div>
+
+
+<!-- RIGHT -->
+
+<div class="col-lg-6">
+
 <div class="upload-card">
 
-    <div class="title">
-        <h1 class="fw-bold">📄 Resume Analyzer</h1>
-        <p class="text-muted">
-            Upload your resume and compare it with a job description
-        </p>
-    </div>
+<h2>
+Upload Resume
+</h2>
 
-    <form method="POST" enctype="multipart/form-data" action="{% url 'resume-upload' %}">
+<p>
+PDF only
+</p>
 
-        {% csrf_token %}
+<form method="POST"
+enctype="multipart/form-data"
+action="{% url 'resume-upload' %}">
 
-        <div class="mb-3">
-            <label class="form-label">
-                Resume PDF
-            </label>
+{% csrf_token %}
 
-            <input
-                type="file"
-                name="file"
-                class="form-control"
-                required>
-        </div>
+<div class="mb-4">
 
-        <div class="mb-3">
+<label class="form-label">
 
-            <label class="form-label">
-                Job Description
-            </label>
+Resume
 
-            <textarea
-                name="job_description"
-                rows="8"
-                class="form-control"
-                placeholder="Paste job description here..."
-                required></textarea>
+</label>
 
-        </div>
+<input
+type="file"
+class="form-control"
+name="file"
+required>
 
-        <button
-            type="submit"
-            class="btn btn-primary btn-analyze">
+</div>
 
-            Analyze Resume
+<div class="mb-4">
 
-        </button>
+<label class="form-label">
 
-    </form>
+Job Description
+
+</label>
+
+<textarea
+
+class="form-control"
+
+rows="8"
+
+name="job_description"
+
+placeholder="Paste Job Description..."
+
+required></textarea>
+
+</div>
+
+<button class="btn btn-primary btn-upload">
+
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+
+Analyze Resume
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 </body>
 </html>
+{% endblock %}

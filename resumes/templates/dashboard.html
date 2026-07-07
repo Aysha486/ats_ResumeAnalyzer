@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="mb-5">
+        <h1 class="fw-bold">Dashboard</h1>
+        <p class="text-muted">
+            Welcome back, {{ user.username }} 👋
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-muted">
+                        📄 Total Resumes
+                    </h5>
+
+                    <h1 class="display-4 fw-bold text-primary">
+                        {{ total_resumes }}
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-muted">
+                        ⭐ Average ATS
+                    </h5>
+
+                    <h1 class="display-4 fw-bold text-success">
+                        {{ average_ats }}%
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-muted">
+                        🔥 Highest ATS
+                    </h5>
+
+                    <h1 class="display-4 fw-bold text-warning">
+                        {{ highest_ats }}%
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow border-0 rounded-4 mt-5">
+
+        <div class="card-header bg-white">
+
+            <h4 class="fw-bold mb-0">
+                Recent Uploads
+            </h4>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Resume</th>
+
+                        <th>ATS</th>
+
+                        <th>Uploaded</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for resume in resumes %}
+
+                    <tr>
+
+                        <td>
+
+                            📄 {{ resume.file.name|cut:"resumes/" }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ resume.ats_score }}%
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {{ resume.uploaded_at|date:"d M Y" }}
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="{% url 'resume-detail' resume.id %}"
+                                class="btn btn-primary btn-sm">
+
+                                View Report
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <h2 class="fw-bold mb-4">
+        📄 Resume Analysis
+    </h2>
+
+    <div class="row">
+
+        <!-- ATS Score -->
+
+        <div class="col-md-6 mb-4">
+
+            <div class="card shadow border-0 p-4">
+
+                <h4 class="text-center">
+                    ATS Score
+                </h4>
+
+                <h1 class="text-success text-center display-3">
+                    {{ resume.ats_score }}%
+                </h1>
+
+                <div class="progress mt-3">
+
+                    <div
+                        class="progress-bar bg-success"
+                        style="width:{{ resume.ats_score }}%">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Match Score -->
+
+        <div class="col-md-6 mb-4">
+
+            <div class="card shadow border-0 p-4">
+
+                <h4 class="text-center">
+                    Match Score
+                </h4>
+
+                <h1 class="text-warning text-center display-3">
+                    {{ resume.match_score }}%
+                </h1>
+
+                <div class="progress mt-3">
+
+                    <div
+                        class="progress-bar bg-warning"
+                        style="width:{{ resume.match_score }}%">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Skills -->
+
+    <div class="card shadow border-0 p-4 mb-4">
+
+        <h3 class="mb-3">
+            ✅ Skills Found
+        </h3>
+
+        <div class="d-flex flex-wrap gap-2">
+
+            {% for skill in resume.skills.split %}
+
+                <span class="badge rounded-pill bg-success px-3 py-2 fs-6">
+                    {{ skill|cut:"," }}
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <!-- Job Description -->
+
+    <div class="card shadow border-0 p-4 mb-4">
+
+        <h3>
+            📋 Job Description
+        </h3>
+
+        <hr>
+
+        <p>
+
+            {{ resume.job_description }}
+
+        </p>
+
+    </div>
+
+    <!-- Resume -->
+
+    <div class="card shadow border-0 p-4">
+
+        <h3>
+
+            📄 Resume
+
+        </h3>
+
+        <hr>
+
+        <a
+            href="{{ resume.file.url }}"
+            target="_blank"
+            class="btn btn-primary">
+
+            Preview Resume
+
+        </a>
+        <a href="{% url 'download-report' resume.id %}"
+   class="btn btn-success">
+
+    📥 Download PDF Report
+
+</a>
+
+    </div>
+
+</div>
+
+{% endblock %}
