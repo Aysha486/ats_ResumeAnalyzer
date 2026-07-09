@@ -1,0 +1,237 @@
+# ATS Resume Analyzer
+
+![Python](https://img.shields.io/badge/Python-3.9-blue)
+![Django](https://img.shields.io/badge/Django-4.2-green)
+![Django REST Framework](https://img.shields.io/badge/Django%20REST%20Framework-DRF-red)
+![SQLite](https://img.shields.io/badge/Database-SQLite-blue)
+![License](https://img.shields.io/badge/License-Educational-lightgrey)
+
+## Overview
+
+ATS Resume Analyzer is a Django-based web application that helps job seekers evaluate their resumes using an Applicant Tracking System (ATS) approach.
+
+The application allows users to register, log in securely, upload resumes in PDF format, automatically extract resume text and technical skills, calculate an ATS score, compare resumes against a job description, and manage uploaded resumes through a personalized dashboard.
+
+This project demonstrates full-stack web development using Django, Django REST Framework, SQLite, HTML, CSS, and Bootstrap.
+
+---
+
+## Features
+
+- User Registration & Login Authentication
+- Secure User Dashboard
+- Upload Resume (PDF)
+- Automatic Resume Text Extraction
+- Technical Skill Extraction
+- ATS Score Calculation
+- Resume vs Job Description Match Score
+- View Uploaded Resumes
+- Resume Details Page
+- SQLite Database Integration
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- HTML5
+- CSS3
+- Bootstrap
+
+### Backend
+
+- Python
+- Django
+- Django REST Framework
+
+### Database
+
+- SQLite
+
+### Libraries Used
+
+- PyPDF
+- PyMuPDF / PDF Processing Libraries
+
+---
+
+## Project Structure
+
+```text
+ats_ResumeAnalyzer/
+│
+├── authentication/
+├── backend/
+├── resumes/
+├── media/
+├── screenshots/
+├── manage.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Aysha486/ats_ResumeAnalyzer.git
+
+cd ats_ResumeAnalyzer
+```
+
+---
+
+### 2. Create a Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+---
+
+### 3. Activate the Virtual Environment
+
+#### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+#### macOS / Linux
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+### 4. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 5. Apply Database Migrations
+
+```bash
+python manage.py makemigrations
+
+python manage.py migrate
+```
+
+---
+
+### 6. Run the Development Server
+
+```bash
+python manage.py runserver
+```
+
+Open your browser and visit:
+
+```
+http://127.0.0.1:8000/
+```
+
+---
+
+## Application Workflow
+
+1. Register a new account
+2. Login securely
+3. Upload a Resume (PDF)
+4. Resume text is extracted automatically
+5. Technical skills are identified
+6. ATS Score is calculated
+7. Enter a Job Description
+8. Resume Match Score is generated
+9. View uploaded resumes
+10. View detailed resume analysis
+
+---
+
+## ATS Score Calculation
+
+The ATS score is calculated using a rule-based scoring system that evaluates:
+
+- Technical Skills
+- Education
+- Projects
+- Experience
+- Certifications
+
+The score is intended to simulate the initial screening process of an Applicant Tracking System for educational purposes.
+
+---
+
+## Screenshots
+
+### Register Page
+
+![Register](screenshots/register.png)
+
+---
+
+### Login Page
+
+![Login](screenshots/login.png)
+
+---
+
+### Resume Upload
+
+![Resume Upload](screenshots/upload.png)
+
+---
+
+### Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+### ATS Score Result
+
+![ATS Result](screenshots/result.png)
+
+---
+
+### Resume Details
+
+![Resume Details](screenshots/resume-detail.png)
+
+---
+
+## Future Enhancements
+
+- AI-powered Resume Feedback
+- Resume Improvement Suggestions
+- Multiple Resume Comparison
+- Resume Download as PDF
+- Email Notifications
+- Resume History
+- Analytics Dashboard
+- Google Authentication
+- Admin Analytics Panel
+
+---
+
+## Author
+
+### Aysha Nuha
+
+Computer Science (Data Science) Engineering Student
+
+GitHub: https://github.com/Aysha486
+
+---
+
+## License
+
+This project was developed for educational and learning purposes.
